@@ -21,16 +21,18 @@
                         </div>
                     </div>
                 @endif
-                @if (session('error'))
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <div class="alert-icon">
-                            <i class="fa fa-times"></i>
+                @if($errors->any())
+                    @foreach ($errors->all() as $msg)
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <div class="alert-icon">
+                                <i class="fa fa-times"></i>
+                            </div>
+                            <div class="alert-message">
+                                <span><strong>{{ $msg }}</strong></span>
+                            </div>
                         </div>
-                        <div class="alert-message">
-                            <span><strong>{{ session('error') }}</strong></span>
-                        </div>
-                    </div>
+                    @endforeach
                 @endif
                 <div class="table-responsive">
                     <table id="datatable" class="table table-bordered my-4">
@@ -41,6 +43,7 @@
                                 <th>Date Of Transaction</th>
                                 <th>Bank</th>
                                 <th>Amount</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -57,6 +60,7 @@
                                         <td>-</td>
                                         @endif
                                         <td>{{ $income->amount }}</td>
+                                        <td>{{ ucfirst($income->status) }}</td>
                                         <td>
                                             <a href="{{route('income.edit', $income->id)}}"><i class="icon-pencil icons"></i></a>
                                             <a href="{{route('income.delete', $income->id)}}"><i class="icon-trash icons"></i></a>

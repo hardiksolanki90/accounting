@@ -10,17 +10,19 @@
             </div>
         </div>
         <div class="card-body">
-            @if (session('error'))
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <div class="alert-icon">
-                            <i class="fa fa-times"></i>
-                        </div>
-                        <div class="alert-message">
-                            <span><strong>{{ session('error') }}</strong></span>
-                        </div>
-                    </div>
-                @endif
+         @if($errors->any())
+            @foreach ($errors->all() as $msg)
+               <div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
+                  <div class="alert-icon">
+                     <i class="fa fa-times"></i>
+                  </div>
+                  <div class="alert-message">
+                     <span><strong>{{ $msg }}</strong></span>
+                  </div>
+               </div>
+            @endforeach
+         @endif
         <form method="POST" action="@if ($client->id) {{ route('client.edit', $client->id) }} @else {{ route('client.add') }} @endif" id="personal-info" novalidate="novalidate">
             @csrf
             <div class="form-group">
@@ -86,7 +88,7 @@
             <div class="form-group">
                 <div class="position-relative has-icon-left">
                    <label for="applicable_tax_percentage" class="">Applicable tax percentage</label>
-                   <input id="applicable_tax_percentage" type="tel" class="form-control @error('applicable_tax_percentage') is-invalid @enderror" name="applicable_tax_percentage" value="{{ old('applicable_tax_percentage', $client->applicable_tax_percentage) }}" required placeholder="Applicable tax percentage" autocomplete="applicable_tax_percentage" autofocus>
+                   <input id="applicable_tax_percentage" type="tel" class="form-control @error('applicable_tax_percentage') is-invalid @enderror" name="applicable_tax_percentage" value="{{ old('applicable_tax_percentage', $client->applicable_tax_percentage ? $client->applicable_tax_percentage : 0 ) }}" required placeholder="Applicable tax percentage" autocomplete="applicable_tax_percentage" autofocus>
                    @error('applicable_tax_percentage')
                       <span class="invalid-feedback" role="alert">
                           <strong>{{ $message }}</strong>

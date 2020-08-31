@@ -80,3 +80,15 @@ function model($model, $key, $alternative_value = null, $type = 'object', $pluck
 
     return $alternative_value;
 }
+
+function setName($name)
+{
+    $output = str_replace(" ", "-", $name);
+    $output = str_replace("_", "-", $output);
+    return $output;
+}
+
+function prepareResult($status, $data, $msg, $redirect_URL = NULL)
+{
+    return response()->json(['status' => $status, 'data' => $data, 'message' => $msg, 'redirect' => $redirect_URL]);
+}

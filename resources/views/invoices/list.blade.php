@@ -21,28 +21,30 @@
                         </div>
                     </div>
                 @endif
-                @if (session('error'))
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <div class="alert-icon">
-                            <i class="fa fa-times"></i>
+                @if($errors->any())
+                    @foreach ($errors->all() as $msg)
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <div class="alert-icon">
+                                <i class="fa fa-times"></i>
+                            </div>
+                            <div class="alert-message">
+                                <span><strong>{{ $msg }}</strong></span>
+                            </div>
                         </div>
-                        <div class="alert-message">
-                            <span><strong>{{ session('error') }}</strong></span>
-                        </div>
-                    </div>
+                    @endforeach
                 @endif
                 <div class="table-responsive">
                     <table id="datatable" class="table table-bordered my-4">
                         <thead>
                             <tr>
-                                <th>Id</th>
                                 <th>Invoice Number</th>
                                 <th>Date</th>
                                 <th>Due Date</th>
                                 <th>Client</th>
                                 <th>Billing Type</th>
                                 <th>Applicable Tax Percentage</th>
+                                <th>Total</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -51,7 +53,7 @@
                             @if (count($invoices))
                                 @foreach ($invoices as $invoice)                                    
                                     <tr>
-                                        <td>{{ $invoice->id }}</td>
+                                        {{-- <td>{{ $invoice->id }}</td> --}}
                                         <td>{{ $invoice->number }}</td>
                                         <td>{{ date_format(date_create($invoice->date),"d M Y") }}</td>
                                         <td>{{ date_format(date_create($invoice->due_date),"d M Y") }}</td>
@@ -62,6 +64,11 @@
                                         @endif
                                         <td>{{ Str::ucfirst($invoice->billing_type) }}</td>
                                         <td>{{ $invoice->applicable_tax_percentage }}</td>
+                                        @if ($invoice->cost)
+                                            <td>{{ $invoice->cost }}</td>
+                                        @else
+                                            <td>{{ array_sum($invoice->invoiceDetail->pluck('total')->toArray()) }}</td>
+                                        @endif
                                         <td>{{ Str::ucfirst($invoice->status) }}</td>
                                         <td>
                                             <a href="{{route('invoice.edit', $invoice->id)}}"><i class="icon-pencil icons"></i></a>

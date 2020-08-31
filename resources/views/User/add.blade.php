@@ -10,7 +10,20 @@
             </div>
         </div>
         <div class="card-body">
-        <form method="POST" action="@if ($user->id) {{ route('user.edit', $user->id) }} @else {{ route('user.add') }} @endif" id="personal-info" novalidate="novalidate">
+         @if($errors->any())
+               @foreach ($errors->all() as $msg)
+                  <div class="alert alert-danger alert-dismissible" role="alert">
+                     <button type="button" class="close" data-dismiss="alert">×</button>
+                     <div class="alert-icon">
+                           <i class="fa fa-times"></i>
+                     </div>
+                     <div class="alert-message">
+                           <span><strong>{{ $msg }}</strong></span>
+                     </div>
+                  </div>
+               @endforeach
+         @endif
+        <form method="POST" action="@if ($user->id) {{ route('user.edit', $user->id) }} @else {{ route('user.add') }} @endif" id="personal-info">
             @csrf
             <div class="form-group">
                 <div class="position-relative has-icon-left">

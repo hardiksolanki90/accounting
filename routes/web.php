@@ -70,6 +70,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('get/invoice-details/{id}', 'FrontControllers\InvoiceController@getDetails')->name('getInvoiceDetails');
     Route::get('get/client-details/{id}', 'FrontControllers\ClientController@getDetails')->name('getClientDetails');
 
+    Route::get('settings', 'FrontControllers\SettingController@index')->name('setting.list');
+    Route::get('setting/add', 'FrontControllers\SettingController@create')->name('setting.add');
+    Route::post('setting/add', 'FrontControllers\SettingController@store');
+    Route::get('setting/edit/{id}', 'FrontControllers\SettingController@edit')->name('setting.edit');
+    Route::post('setting/edit/{id}', 'FrontControllers\SettingController@update');
+
     Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 });
 

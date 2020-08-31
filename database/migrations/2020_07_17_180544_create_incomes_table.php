@@ -24,6 +24,8 @@ class CreateIncomesTable extends Migration
             $table->unsignedBigInteger('bank_id')->nullable()->comment('Get it from Bank section');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('modified_by');
+            $table->enum('status', ['pending', 'completed']);
+
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('modified_by')->references('id')->on('users');
             $table->foreign('bank_id')->references('id')->on('banks');

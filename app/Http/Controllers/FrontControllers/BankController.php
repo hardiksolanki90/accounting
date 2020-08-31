@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class BankController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -49,9 +59,8 @@ class BankController extends Controller
             'description' => 'required'
         ]);
 
-        if($validator->fails())
-        {
-            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors()->first());
+        if ($validator->fails()) {
+            return redirect()->back()->withInput(request()->input())->withErrors($validator);
         }
 
         $bank = new Bank;
@@ -60,8 +69,8 @@ class BankController extends Controller
         $bank->bank_name = $request->bank_name;
         $bank->bank_address = $request->bank_address;
         $bank->description = $request->description;
-        $bank->created_by= Auth::user()->id;
-        $bank->modified_by= Auth::user()->id;
+        $bank->created_by = Auth::user()->id;
+        $bank->modified_by = Auth::user()->id;
         $bank->save();
 
         return redirect(route('bank.list'))->with('status', 'Bank saved successfully!');
@@ -76,7 +85,7 @@ class BankController extends Controller
     public function edit($id)
     {
         if (!$id) {
-            return redirect(route('bank.list'))->with('error', 'Opps! there is some problem.');
+            return redirect()->back()->withInput(request()->input())->withErrors(array('Opps! there is some problem.'));
         }
 
         $bank = Bank::find($id);
@@ -100,9 +109,8 @@ class BankController extends Controller
             'description' => 'required'
         ]);
 
-        if($validator->fails())
-        {
-            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors()->first());
+        if ($validator->fails()) {
+            return redirect()->back()->withInput(request()->input())->withErrors($validator);
         }
 
         $bank = Bank::find($id);
@@ -112,7 +120,7 @@ class BankController extends Controller
         $bank->bank_address = $request->bank_address;
         $bank->description = $request->description;
         // $bank->created_by= Auth::user()->id;
-        $bank->modified_by= Auth::user()->id;
+        $bank->modified_by = Auth::user()->id;
         $bank->save();
 
         return redirect(route('bank.list'))->with('status', 'Bank updated successfully!');
@@ -127,7 +135,7 @@ class BankController extends Controller
     public function destroy($id)
     {
         if (!$id) {
-            return redirect(route('bank.list'))->with('error', 'Opps! there is some problem.');
+            return redirect(route('bank.list'))->withErrors(array('Opps! there is some problem.'));
         }
 
         $bank = Bank::find($id);
@@ -136,7 +144,6 @@ class BankController extends Controller
             $bank->delete();
             return redirect(route('bank.list'))->with('status', 'Record deleted successfully.');
         }
-
-        return redirect(route('bank.list'))->with('error', 'Opps! there is some problem.');        
+        return redirect(route('bank.list'))->withErrors(array('Opps! there is some problem.'));
     }
 }

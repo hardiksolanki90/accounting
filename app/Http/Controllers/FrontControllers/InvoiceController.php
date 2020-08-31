@@ -6,10 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Model\Invoice;
 use App\Model\InvoiceDetail;
 use App\Model\Client;
+use App\Model\Setting;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +28,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::with('client')->get();
-
+        $invoices = Invoice::with('client')->orderBy('id', 'desc')->get();
         return view('invoices.list', compact('invoices'));
     }
 
@@ -31,20 +41,20 @@ class InvoiceController extends Controller
     {
         $invoice = new Invoice;
         $clients = Client::select('id', 'name')->get();
-        $last_number = Invoice::latest('id')->first();
+        $last_number = Invoice::orderBy('id', 'desc')->first();
         
         if (is_object($last_number)) {
-            $last = $last_number->id;
+            $last = $last_number->id + 1;
         } else {
             $last = 1;
         }
+
 
         $data = array(
             'invoice' => $invoice,
             'clients' => $clients,
             'last_number' => $last
         );
-
         return view('invoices.add', $data);
     }
 
@@ -74,7 +84,7 @@ class InvoiceController extends Controller
         
         if($validator->fails())
         {
-            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors()->first());
+            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors());
         }
 
         if ($request->billing_type == "fixed") {
@@ -113,7 +123,6 @@ class InvoiceController extends Controller
             $invoice->save();
 
             if ($request->billing_type == 'hourly') {
-                pre('jere');
                 foreach ($request->description as $key => $disc) {
                     $invoice_detail = new InvoiceDetail;
                     $invoice_detail->invoice_id = $invoice->id;
@@ -185,7 +194,7 @@ class InvoiceController extends Controller
         
         if($validator->fails())
         {
-            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors()->first());
+            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors());
         }
 
         if ($request->billing_type == "fixed") {
@@ -296,15 +305,20 @@ class InvoiceController extends Controller
             $total = $total + $sub_total;
         }
 
+        $setting = Setting::first();
+
         $data = array(
             'invoice' => $invoice, 
             'total' => $total,
-            'sub_total' => $sub_total
+            'sub_total' => $sub_total,
+            'setting' => $setting
         );
 
         $mpdf = new \Mpdf\Mpdf();
+        $mpdf->showImageErrors = true;
         $mpdf->WriteHTML(\View::make('invoices.download')->with('data', $data)->render());
-        $pdf_path = $invoice->number . '.pdf';
+        $pdf_path = 'Invoice_'. $invoice->number . '.pdf';
+        $mpdf->debug = true;
         $mpdf->Output($pdf_path, 'd');
 
         return redirect(route('invoices.list'))->with('status', 'Invoice Download successfully.');

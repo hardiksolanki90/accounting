@@ -10,17 +10,19 @@
             </div>
         </div>
         <div class="card-body">
-            @if (session('error'))
+            @if($errors->any())
+                @foreach ($errors->all() as $msg)
                     <div class="alert alert-danger alert-dismissible" role="alert">
                         <button type="button" class="close" data-dismiss="alert">×</button>
                         <div class="alert-icon">
                             <i class="fa fa-times"></i>
                         </div>
                         <div class="alert-message">
-                            <span><strong>{{ session('error') }}</strong></span>
+                            <span><strong>{{ $msg }}</strong></span>
                         </div>
                     </div>
-                @endif
+                @endforeach
+            @endif
         <form method="POST" action="@if ($bank->id) {{ route('bank.edit', $bank->id) }} @else {{ route('bank.add') }} @endif" id="personal-info" novalidate="novalidate">
             @csrf
             <div class="form-group">

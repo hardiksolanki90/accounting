@@ -1,23 +1,34 @@
 <ul class="sidebar-menu">
     <li class="sidebar-header">Component</li>
     <li>
-       <a href="javaScript:void();" class="waves-effect">
-       <i class="zmdi zmdi-view-dashboard"></i> <span>Users</span><i class="fa fa-angle-left pull-right"></i>
-       </a>
-       <ul class="sidebar-submenu">
-       <li><a href="{{ route('user.add') }}"><i class="zmdi zmdi-dot-circle-alt"></i> Add New</a></li>
-       <li><a href="{{ route('user.list') }}"><i class="zmdi zmdi-dot-circle-alt"></i> List</a></li>
-       </ul>
+        <a href="javaScript:void();" class="waves-effect">
+        <i class="zmdi zmdi-view-dashboard"></i> <span>Invoices</span><i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+        <li><a href="{{ route('invoice.add') }}"><i class="zmdi zmdi-dot-circle-alt"></i> Add New</a></li>
+        <li><a href="{{ route('invoice.list') }}"><i class="zmdi zmdi-dot-circle-alt"></i> List</a></li>
+        </ul>
     </li>
     <li>
-       <a href="javaScript:void();" class="waves-effect">
-       <i class="zmdi zmdi-view-dashboard"></i> <span>Clients</span><i class="fa fa-angle-left pull-right"></i>
-       </a>
-       <ul class="sidebar-submenu">
-       <li><a href="{{ route('client.add') }}"><i class="zmdi zmdi-dot-circle-alt"></i> Add New</a></li>
-       <li><a href="{{ route('client.list') }}"><i class="zmdi zmdi-dot-circle-alt"></i> List</a></li>
-       </ul>
+        <a href="javaScript:void();" class="waves-effect">
+        <i class="zmdi zmdi-view-dashboard"></i> <span>Income</span><i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+        <li><a href="{{ route('income.add') }}"><i class="zmdi zmdi-dot-circle-alt"></i> Add New</a></li>
+        <li><a href="{{ route('income.list') }}"><i class="zmdi zmdi-dot-circle-alt"></i> List</a></li>
+        </ul>
     </li>
+
+    <li>
+        <a href="javaScript:void();" class="waves-effect">
+        <i class="zmdi zmdi-view-dashboard"></i> <span>Clients</span><i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+        <li><a href="{{ route('client.add') }}"><i class="zmdi zmdi-dot-circle-alt"></i> Add New</a></li>
+        <li><a href="{{ route('client.list') }}"><i class="zmdi zmdi-dot-circle-alt"></i> List</a></li>
+        </ul>
+     </li>
+
     <li>
        <a href="javaScript:void();" class="waves-effect">
        <i class="zmdi zmdi-view-dashboard"></i> <span>Bank</span><i class="fa fa-angle-left pull-right"></i>
@@ -27,24 +38,27 @@
        <li><a href="{{ route('bank.list') }}"><i class="zmdi zmdi-dot-circle-alt"></i> List</a></li>
        </ul>
     </li>
-    <li>
-       <a href="javaScript:void();" class="waves-effect">
-       <i class="zmdi zmdi-view-dashboard"></i> <span>Income</span><i class="fa fa-angle-left pull-right"></i>
-       </a>
-       <ul class="sidebar-submenu">
-       <li><a href="{{ route('income.add') }}"><i class="zmdi zmdi-dot-circle-alt"></i> Add New</a></li>
-       <li><a href="{{ route('income.list') }}"><i class="zmdi zmdi-dot-circle-alt"></i> List</a></li>
-       </ul>
-    </li>
-    <li>
-       <a href="javaScript:void();" class="waves-effect">
-       <i class="zmdi zmdi-view-dashboard"></i> <span>Invoices</span><i class="fa fa-angle-left pull-right"></i>
-       </a>
-       <ul class="sidebar-submenu">
-       <li><a href="{{ route('invoice.add') }}"><i class="zmdi zmdi-dot-circle-alt"></i> Add New</a></li>
-       <li><a href="{{ route('invoice.list') }}"><i class="zmdi zmdi-dot-circle-alt"></i> List</a></li>
-       </ul>
-    </li>
+
+      <li>
+         <a href="javaScript:void();" class="waves-effect">
+         <i class="zmdi zmdi-view-dashboard"></i> <span>Users</span><i class="fa fa-angle-left pull-right"></i>
+         </a>
+         <ul class="sidebar-submenu">
+         <li><a href="{{ route('user.add') }}"><i class="zmdi zmdi-dot-circle-alt"></i> Add New</a></li>
+         <li><a href="{{ route('user.list') }}"><i class="zmdi zmdi-dot-circle-alt"></i> List</a></li>
+         </ul>
+      </li>
+
+      <li>
+         <a href="javaScript:void();" class="waves-effect">
+         <i class="zmdi zmdi-view-dashboard"></i> <span>Setting</span><i class="fa fa-angle-left pull-right"></i>
+         </a>
+         <ul class="sidebar-submenu">
+         {{-- <li><a href="{{ route('setting.add') }}"><i class="zmdi zmdi-dot-circle-alt"></i> Add New</a></li> --}}
+         <li><a href="{{ route('setting.list') }}"><i class="zmdi zmdi-dot-circle-alt"></i> List</a></li>
+         </ul>
+      </li>
+    
     {{--
     <li class="sidebar-header">MAIN NAVIGATION</li>
     <li>

@@ -11,6 +11,16 @@ use Illuminate\Support\Facades\Auth;
 class ClientController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -54,7 +64,7 @@ class ClientController extends Controller
 
         if($validator->fails())
         {
-            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors()->first());
+            return redirect()->back()->withInput(request()->input())->withErrors($validator);
         }
         
         $client = new Client;
@@ -82,7 +92,7 @@ class ClientController extends Controller
     public function edit($id)
     {
         if (!$id) {
-            return redirect(route('client.list'))->with('error', 'Opps! there is some problem.');
+            return redirect(route('client.list'))->withErrors(array('Opps! there is some problem.'));
         }
 
         $client = Client::find($id);   
@@ -99,10 +109,10 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
         if (!$id) {
-            return redirect(route('user.list'))->with('error', 'Opps! there is some problem.');
+            return redirect(route('client.list'))->withErrors(array('Opps! there is some problem.'));
         }
         
-$validator = \Validator::make(request()->input(), [
+        $validator = \Validator::make(request()->input(), [
             'name' => 'required|max:191',
             'address' => 'required|max:191',
             'hourly_rate' => 'required|numeric',
@@ -114,7 +124,7 @@ $validator = \Validator::make(request()->input(), [
                 
         if($validator->fails())
         {
-            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors()->first());
+            return redirect()->back()->withInput(request()->input())->withErrors($validator);
         }
 
         $client = Client::find($id);
@@ -142,7 +152,7 @@ $validator = \Validator::make(request()->input(), [
     public function destroy($id)
     {
         if (!$id) {
-            return redirect(route('client.list'))->with('error', 'Opps! there is some problem.');
+            return redirect(route('client.list'))->withErrors(array('Opps! there is some problem.'));
         }
 
         $client = Client::find($id);

@@ -12,13 +12,23 @@ use Illuminate\Support\Facades\Auth;
 class IncomeController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $incomes = Income::get();
+        $incomes = Income::orderBy('id', 'desc')->get();
 
         return view('income.list', compact('incomes'));
     }
@@ -63,7 +73,7 @@ class IncomeController extends Controller
 
         if($validator->fails())
         {
-            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors()->first());
+            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors());
         }
 
         if ($request->type == 'bank') {
@@ -79,7 +89,7 @@ class IncomeController extends Controller
     
             if($validator->fails())
             {
-                return redirect()->back()->withInput(request()->input())->with('error', $validator->errors()->first());
+                return redirect()->back()->withInput(request()->input())->with('error', $validator->errors());
             }
         }
 
@@ -99,6 +109,7 @@ class IncomeController extends Controller
         }
         $income->created_by = Auth()->user()->id;
         $income->modified_by = Auth()->user()->id;
+        $income->status = $request->status;
         $income->save();
 
         return redirect(route('income.list'))->with('status', 'Income added successfully!');
@@ -139,14 +150,14 @@ class IncomeController extends Controller
     public function update(Request $request, $id)
     {
         $validator = \Validator::make(request()->input(), [
-            'invoice_number' => 'required',
+            // 'invoice_number' => 'required',
             'amount' => 'required',
             'type' => 'required'
         ]);
 
         if($validator->fails())
         {
-            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors()->first());
+            return redirect()->back()->withInput(request()->input())->with('error', $validator->errors());
         }
 
         if ($request->type == 'bank') {
@@ -159,8 +170,8 @@ class IncomeController extends Controller
 
 
         $income = Income::find($id);
-        $income->invoice_id = $request->invoice_number;
-        $income->invoice_number = getInvoiceCombination($request->invoice_number);
+        // $income->invoice_id = $income->invoice_number;
+        // $income->invoice_number = getInvoiceCombination($request->invoice_number);
         $income->amount = $request->amount;
         $income->type = $request->type;
         $income->date_of_transaction = $request->date_of_transaction;
@@ -173,6 +184,7 @@ class IncomeController extends Controller
             $income->transaction_id = null;
         }
         $income->modified_by = Auth()->user()->id;
+        $income->status = $request->status;
         $income->save();
 
         return redirect(route('income.list'))->with('status', 'Income updated successfully!');

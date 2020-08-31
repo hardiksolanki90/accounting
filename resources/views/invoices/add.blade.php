@@ -10,17 +10,19 @@
             </div>
         </div>
         <div class="card-body">
-            @if (session('error'))
+            @if($errors->any())
+                    @foreach ($errors->all() as $msg)
                     <div class="alert alert-danger alert-dismissible" role="alert">
                         <button type="button" class="close" data-dismiss="alert">×</button>
                         <div class="alert-icon">
                             <i class="fa fa-times"></i>
                         </div>
                         <div class="alert-message">
-                            <span><strong>{{ session('error') }}</strong></span>
+                            <span><strong>{{ $msg }}</strong></span>
                         </div>
                     </div>
-                @endif
+                @endforeach
+            @endif
         <form method="POST" action="@if ($invoice->id) {{ route('invoice.edit', $invoice->id) }} @else {{ route('invoice.add') }} @endif" id="personal-info" novalidate="novalidate">
             @csrf
             <div class="form-group">
@@ -134,8 +136,8 @@
 
              <div class="form-group">
                 <div class="position-relative has-icon-left">
-                   <label for="applicable_tax_percentage" class="">Applicable Tax Percentage</label>
-                   <input id="applicable_tax_percentage" type="text" class="form-control @error('applicable_tax_percentage') is-invalid @enderror" name="applicable_tax_percentage" value="{{ old('applicable_tax_percentage', $invoice->applicable_tax_percentage) }}" required placeholder="Applicable tax percentage" autocomplete="applicable_tax_percentage" autofocus>
+                   <label for="applicable_tax_percentage" class="">Tax</label>
+                   <input id="applicable_tax_percentage" type="text" class="form-control @error('applicable_tax_percentage') is-invalid @enderror" name="applicable_tax_percentage" value="{{ old('applicable_tax_percentage', $invoice->applicable_tax_percentage ? $invoice->applicable_tax_percentage : 0) }}" required placeholder="Tax" autocomplete="applicable_tax_percentage" autofocus>
                    @error('applicable_tax_percentage')
                       <span class="invalid-feedback" role="alert">
                           <strong>{{ $message }}</strong>
@@ -149,7 +151,7 @@
              <div class="cloneData">
                  @if (count($invoice->invoiceDetail))
                     @foreach ($invoice->invoiceDetail as $detail)
-                        <div class="hours" >
+                        <div class="hours admr" >
                             @include('invoices._partials.hour', $detail)
                         </div>
                     @endforeach
@@ -162,9 +164,15 @@
                 </div>
                 @endif
                 <div class="new-column"></div>
-                <div class="form-group addMoreWrap"  style="display: none">
-                    <button type="button" class="btn addMore btn-info waves-effect waves-light m-1"> <i class="fa fa-plus-square-o"></i> <span>Add More</span> </button>
-                </div>
+                @if ($invoice->billing_type == "hourly")
+                    <div class="form-group addMoreWrap">
+                        <button type="button" class="btn addMore btn-info waves-effect waves-light m-1"> <i class="fa fa-plus-square-o"></i> <span>Add More</span> </button>
+                    </div>
+                @else
+                    <div class="form-group addMoreWrap" style="display: none">
+                        <button type="button" class="btn addMore btn-info waves-effect waves-light m-1"> <i class="fa fa-plus-square-o"></i> <span>Add More</span> </button>
+                    </div>
+                @endif
              </div>
              <input type="hidden" class="rate">
              <div class="form-footer">

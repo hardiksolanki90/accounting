@@ -10,23 +10,25 @@
             </div>
         </div>
         <div class="card-body">
-            @if (session('error'))
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <div class="alert-icon">
-                            <i class="fa fa-times"></i>
-                        </div>
-                        <div class="alert-message">
-                            <span><strong>{{ session('error') }}</strong></span>
-                        </div>
-                    </div>
-                @endif
-        <form method="POST" action="@if ($income->id) {{ route('income.edit', $income->id) }} @else {{ route('income.add') }} @endif" id="personal-info" novalidate="novalidate">
+         @if($errors->any())
+            @foreach ($errors->all() as $msg)
+            <div class="alert alert-danger alert-dismissible" role="alert">
+               <button type="button" class="close" data-dismiss="alert">×</button>
+               <div class="alert-icon">
+                  <i class="fa fa-times"></i>
+               </div>
+               <div class="alert-message">
+                  <span><strong>{{ $msg }}</strong></span>
+               </div>
+            </div>
+            @endforeach
+      @endif
+        <form method="POST" action="@if ($income->id) {{ route('income.edit', $income->id) }} @else {{ route('income.add') }} @endif" id="personal-info">
             @csrf
             <div class="form-group">
                <div class="position-relative has-icon-left">
                   <label for="invoice_number" class="">Invoice Number</label>
-                   <select required name="invoice_number" class="select_search form-control @error('invoice_number') is-invalid @enderror" id="invoice_number">
+                   <select required name="invoice_number" class="select_search form-control @error('invoice_number') is-invalid @enderror" id="invoice_number" {{ $income->invoice_id ? 'disabled' : '' }}>
                        <option readonly>Choose Invoice Number</option>
                        @if (count($invoice))
                           @foreach ($invoice as $i)
@@ -79,8 +81,8 @@
                 <div class="position-relative has-icon-left">
                    <label for="type" class="">Type</label>
                     <select required name="type" class="select_search bil_type form-control @error('type') is-invalid @enderror" id="type">
-                      <option value="bank" {{ $income->type == 'bank' ? 'selected' : '' }}>Bank</option>
-                      <option value="cash" {{ $income->type == 'cash' ? 'selected' : '' }}>Cash</option>
+                     <option value="bank" {{ $income->type == 'bank' ? 'selected' : '' }}>Bank</option>
+                     <option value="cash" {{ $income->type == 'cash' ? 'selected' : '' }}>Cash</option>
                     </select>
                    @error('type')
                       <span class="invalid-feedback" role="alert">
@@ -112,12 +114,13 @@
                    <div class="form-control-position">
                       <i class="icon-graph icons"></i>
                    </div>
-                </div>
-             </div>
+               </div>
+            </div>
+
              <div class="form-group bank_detail" style="{{ $income->type == 'bank' ? '' : 'display:none' }}">
                <div class="position-relative has-icon-left">
                   <label for="transaction_id" class="">Transaction Number</label>
-                  <input id="transaction_id" type="text" class="form-control @error('transaction_id') is-invalid @enderror" name="transaction_id" value="{{ old('transaction_id', $income->transaction_id) }}" required placeholder="Transaction Number" autocomplete="transaction_id" autofocus>
+                  <input id="transaction_id" type="text" class="form-control @error('transaction_id') is-invalid @enderror" name="transaction_id" value="{{ old('transaction_id', $income->transaction_id) }}" placeholder="Transaction Number" autocomplete="transaction_id" autofocus>
                   @error('transaction_id')
                      <span class="invalid-feedback" role="alert">
                          <strong>{{ $message }}</strong>
@@ -128,6 +131,25 @@
                   </div>
                </div>
             </div>
+
+            <div class="form-group">
+               <div class="position-relative has-icon-left">
+                  <label for="status" class="">status</label>
+                   <select required name="status" class="select_search form-control @error('status') is-invalid @enderror" id="status">
+                        <option readonly>Choose status</option>
+                        <option value="pending" {{ $income->status == "pending" ? 'selected' : '' }}>Pending</option>
+                        <option value="completed" {{ $income->status == "completed" ? 'selected' : '' }}>Completed</option>
+                   </select>
+                  @error('status')
+                     <span class="invalid-feedback" role="alert">
+                         <strong>{{ $message }}</strong>
+                     </span>
+                 @enderror
+                  <div class="form-control-position">
+                     <i class="icon-graph icons"></i>
+                  </div>
+              </div>
+           </div>
 
              <input type="hidden" class="rate" value="">
              <div class="form-footer">

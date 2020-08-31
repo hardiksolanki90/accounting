@@ -22,6 +22,7 @@
       <link href="{{ asset('css/sidebar-menu.css') }}" rel="stylesheet"/>
       <link href="{{ asset('css/icons.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('css/sumoselect.min.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet"/>
       <!-- Custom Style-->
       <link href="{{ asset('css/bootstrap-datetimepicker-standalone.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('css/app-style.css') }}" rel="stylesheet"/>
@@ -41,9 +42,9 @@
          <!--Start sidebar-wrapper-->
          <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
             <div class="brand-logo">
-               <a href="index.html">
+               <a href="{{ url('dashboard') }}">
                    <img src="{{asset('images/footer-logo.png')}}" class="logo-icon" alt="logo icon">
-                  <h5 class="logo-text">Hardik Admin</h5>
+                  <h5 class="logo-text">Suposa Invoice</h5>
                </a>
             </div>
             @include('_partials.sidebar')
@@ -75,10 +76,12 @@
       <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
       <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
       <!-- simplebar js -->
+      <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
       <script src="{{ asset('js/simplebar.js') }}"></script>
       <!-- sidebar-menu js -->
       <script src="{{ asset('js/sidebar-menu.js') }}"></script> 
       <script src="{{ asset('js/jquery.sumoselect.min.js') }}"></script>
+      <script src="{{ asset('js/axios.min.js') }}"></script>
       <script src="{{ asset('js/core.js') }}"></script> 
       <!-- Custom scripts -->
       <script src="{{ asset('js/app-script.js') }}"></script>

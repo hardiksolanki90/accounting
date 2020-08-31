@@ -19,7 +19,7 @@
         <div class="position-relative has-icon-left">
         <label for="hours" class="">hours</label>
         {{ $detail->hours }}
-        <input id="hours" type="text" class="hours form-control @error('hours') is-invalid @enderror" name="hours[]" value="{{ $detail->hours }}"  required placeholder="Hours" autocomplete="hours" autofocus>
+        <input id="hours" type="text" class="in_hours form-control @error('hours') is-invalid @enderror" name="hours[]" value="{{ $detail->hours }}"  required placeholder="Hours" autocomplete="hours" autofocus>
         @error('hours')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -49,7 +49,7 @@
         <div class="position-relative has-icon-left">
         <label for="total" class="">total</label>
         {{ $detail->total }}
-        <input id="total" type="text" class="form-control @error('total') is-invalid @enderror" name="total[]" value="{{ $detail->total }}" required placeholder="Total" autocomplete="total" autofocus>
+        <input id="total" type="text" class="in_total form-control @error('total') is-invalid @enderror" name="total[]" value="{{ $detail->total }}" required placeholder="Total" autocomplete="total" autofocus>
         @error('total')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -83,7 +83,7 @@
     <div class="form-group col-md-2">
         <div class="position-relative has-icon-left">
         <label for="hours" class="">hours</label>
-        <input id="hours" type="text" class="hours form-control @error('hours') is-invalid @enderror" name="hours[]" value="{{ old('hours[]') }}" min="00:00" max="24:00" required placeholder="Hours" autocomplete="hours" autofocus>
+        <input id="hours" type="text" class="in_hours form-control @error('hours') is-invalid @enderror" name="hours[]" value="{{ old('hours[]') }}" min="00:00" max="24:00" required placeholder="Hours" autocomplete="hours" autofocus>
         @error('hours')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -111,7 +111,7 @@
     <div class="form-group col-md-2">
         <div class="position-relative has-icon-left">
         <label for="total" class="">total</label>
-        <input id="total" type="text" class="form-control @error('total') is-invalid @enderror" name="total[]" value="{{ old('total[]') }}" required placeholder="Total" autocomplete="total" autofocus>
+        <input id="total" type="text" class="in_total form-control @error('total') is-invalid @enderror" name="total[]" value="{{ old('total[]') }}" required placeholder="Total" autocomplete="total" autofocus>
         @error('total')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
